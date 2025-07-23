@@ -13,12 +13,20 @@ if (!process.env.VELITE_STARTED && (isDev || isBuild)) {
   await build({ watch: isDev, clean: !isDev });
 }
 
+// Check if we're building for GitHub Pages
+const isGithubPages = process.env.GITHUB_PAGES === "true";
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: {
-    optimizePackageImports: ["lucide-react"],
-  },
+  // Enable static export for GitHub Pages
+  output: 'export',
+  
+  // Set base path for GitHub Pages (repository name)
+  basePath: isGithubPages ? '/personal-website' : '',
+  
+  // Disable image optimization for static export
   images: {
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: "https",
@@ -26,12 +34,13 @@ const nextConfig = {
       },
     ],
   },
-  // Remove or update these redirects with your own social media links later
-  async redirects() {
-    return [
-      // Add your own redirects here when you have your social media profiles set up
-    ];
+  
+  experimental: {
+    optimizePackageImports: ["lucide-react"],
   },
+  
+  // Disable server-side features for static export
+  trailingSlash: true,
 };
 
 export default nextConfig;

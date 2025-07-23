@@ -7,8 +7,10 @@
     "build:content": "velite --clean",
     "dev:next": "next dev",
     "build:next": "next build",
+    "export": "GITHUB_PAGES=true next build",
     "dev": "run-p dev:*",
     "build": "npm install --legacy-peer-deps && run-s build:*",
+    "build:github": "npm install --legacy-peer-deps && npm run build:content && npm run export",
     "start": "next start",
     "upgrade:latest": "npm upgrade-interactive --latest",
     "format": "prettier --write \"**/*.{ts,tsx,md,mdx,json,css}\""
