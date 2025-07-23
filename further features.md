@@ -1,0 +1,28 @@
+further features
+
+- sidebars with some cool features and blog and quartz integrated or overall better thingies
+- ryo.lu like and os.ryo.lu & eva and many coool inspiring thingies add : ) and many other abstract unprocessed thingies : )
+
+- [Ryo Lu on X: "the team is cooking" / X](https://x.com/ryolu_/status/1940963666335314364)
+- [Ryo Lu](https://ryo.lu/)
+- [ryOS](https://os.ryo.lu/)
+- [eva's site](https://kibty.town/)
+- [Mokshit Jain](https://mokshitjain.co/)
+- [Mokshit06 (Mokshit Jain)](https://github.com/Mokshit06)
+- [Website Design Showcase | Google AI Studio](https://aistudio.google.com/prompts/1I6r_SQZQqYHvALTAounHDOkcPkQMDbnq)
+- [🦀  Impressive 2025 Website Design Inspi…](https://chatgpt.com/share/6867967f-0384-8009-8776-5adae2c53835)
+- [Impressive 2025 Website Design Inspiration](https://www.youtube.com/watch?v=RGWXVbkrYKM&list=PL8XOZPUfo-1XB2XXo81Y0qdjCti1D265_&index=3)
+- [Lusion - Realise Your Creative Ideas](https://lusion.co/)
+- [MANA yerba mate | Energizing infusion | Made in Quebec - MANA yerba mate](https://en.manayerbamate.com/)
+- [KPR | Story](https://kprverse.com/)
+- [Wix Studio x Pantone Color of the Year 2025 Web Capsule](https://www.wix.com/studio/pantone-color-of-the-year-2025)
+- [Experience | Mammut](https://eiger-extreme.mammut.com/en)
+- [ChungiYoo - Home](https://chungiyoo.com/)
+- [Prometheus Fuels](https://prometheusfuels.com/)
+- [Synchronized | Digital Creative Studio](https://synchronized.studio/)
+- [Pioneer – Corn. Revolutionized.](https://cornrevolution.resn.global/)
+- [The Future of Extended Reality](https://xr.noomoagency.com/)
+- [Home it - Crescentesicily](https://www.crescentesicily.com/)
+- [Sites Of The Year - Awwwards](https://www.awwwards.com/websites/sites_of_the_year/)
+- [KPR (@KPRVERSE) / X](https://x.com/KPRVERSE)
+- [MacBook Pro - Apple](https://www.apple.com/macbook-pro/) 

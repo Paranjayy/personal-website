@@ -1,4 +1,4 @@
-import { posts } from "#site/content";
+ import { posts } from "#site/content";
 import { slug } from "github-slugger";
 import React from "react";
 import { CustomLink } from "~/components/mdx";

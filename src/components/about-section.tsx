@@ -50,29 +50,24 @@ const AboutSection = () => {
           <span className="text-white">
             About Me <br />
           </span>
-          Hello! I'm a developer from Delhi, India. I enjoy programming and exploring technology.
-          I've participated in{" "}
-          <span className="text-white">
-            <a href="https://docs.google.com/spreadsheets/d/12_9qHndKpcrtrfCzGFSlu9Cb07TkeHIRHsQtRZdIeJ8/edit?usp=sharing">
-              15+ hackathons
-            </a>
-          </span>{" "}
-          & ideathons and won 6 of them.
+          Hello! I'm a software developer passionate about creating innovative solutions and exploring new technologies.
+          I enjoy building projects that make a difference and love collaborating with fellow developers.
         </p>
 
         <p className={typo({ variant: "paragraph", font: "sans" })}>
           <span className="text-white">
             What I do? <br />
-          </span>{" "}
-          I've delivered 10+ freelance projects, interned at two startups and failed to build my own
-          startup twice. <span className="text-white">#LifeGoesOn</span>. I'm super active on X
-          where I share funnies and <span className="text-white">#BuildInPublic</span>.{" "}
+          </span>
+          I'm experienced in full-stack development, working with modern frameworks and technologies.
+          When not coding, I enjoy learning about emerging tech trends and contributing to open-source projects.
         </p>
 
         <p className={typo({ variant: "paragraph", font: "sans" })}>
-          I'm an <span className="text-white">AWS Cloud Club Captain</span>, a maintainer and
-          contributor of open-source projects. When not coding, I read books, go out for a run or
-          binge YouTube.
+          <span className="text-white">
+            Let's connect! <br />
+          </span>
+          I'm always open to interesting conversations about technology, potential collaborations, or just a friendly chat.
+          Feel free to reach out if you'd like to work together or share ideas.
         </p>
 
         <p className={typo({ variant: "paragraph", font: "sans" })}></p>

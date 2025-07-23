@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { cn } from "~/lib/utils";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, MoreHorizontal } from "lucide-react";
 
 interface SidebarProps {
   position: "left" | "right";
@@ -69,80 +69,80 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const sidebarWidth = isCollapsed ? 0 : width;
 
   return (
-    <div
-      className={cn(
-        "relative flex-shrink-0 border-border transition-all duration-200 overflow-hidden",
-        position === "left" ? "border-r" : "border-l",
-        className
-      )}
-      style={{ width: sidebarWidth }}
-    >
-      {/* Sidebar Content */}
-      <div className="h-full bg-background/50 backdrop-blur-sm">
-        {!isCollapsed && (
-          <>
-            {/* Sidebar Header */}
-            <div className="p-4 border-b border-border/50">
-              <div className="flex items-center justify-between">
-                <h3 className="text-sm font-medium text-muted-foreground">
-                  {position === "left" ? "Explorer" : "Outline"}
-                </h3>
-                <button
-                  onClick={() => setIsCollapsed(true)}
-                  className="p-1 hover:bg-accent rounded text-muted-foreground hover:text-foreground"
-                >
-                  {position === "left" ? (
-                    <ChevronLeft size={14} />
-                  ) : (
-                    <ChevronRight size={14} />
-                  )}
-                </button>
-              </div>
-            </div>
-
-            {/* Sidebar Body */}
-            <div className="p-4 text-sm text-muted-foreground">
-              {children || (
-                <div className="space-y-2">
-                  <p>Sidebar content will go here.</p>
-                  <p className="text-xs opacity-60">
-                    This is a blank {position} sidebar inspired by Obsidian/VSCode.
-                  </p>
-                </div>
-              )}
-            </div>
-          </>
-        )}
-      </div>
-
-      {/* Resize Handle */}
-      {!isCollapsed && (
-        <div
-          className={cn(
-            "absolute top-0 w-1 h-full cursor-col-resize hover:bg-accent/50 transition-colors",
-            position === "left" ? "right-0" : "left-0"
-          )}
-          onMouseDown={handleMouseDown}
-        />
-      )}
-
-      {/* Collapsed Toggle Button */}
+    <>
+      {/* Collapsed Toggle Button - positioned absolutely relative to viewport */}
       {isCollapsed && (
         <div
           className={cn(
-            "absolute top-4 w-6 h-8 bg-background border border-border rounded cursor-pointer flex items-center justify-center hover:bg-accent transition-colors",
-            position === "left" ? "-right-3" : "-left-3"
+            "fixed top-20 z-50 w-8 h-10 bg-background border border-border rounded-md cursor-pointer flex items-center justify-center hover:bg-accent transition-all duration-200 shadow-lg",
+            position === "left" ? "left-2" : "right-2"
           )}
           onClick={() => setIsCollapsed(false)}
+          title={`Open ${position} sidebar`}
         >
-          {position === "left" ? (
-            <ChevronRight size={14} />
-          ) : (
-            <ChevronLeft size={14} />
-          )}
+          <MoreHorizontal size={16} className="text-muted-foreground" />
         </div>
       )}
-    </div>
+
+      <div
+        className={cn(
+          "relative flex-shrink-0 border-border transition-all duration-200 overflow-hidden",
+          position === "left" ? "border-r" : "border-l",
+          className
+        )}
+        style={{ width: sidebarWidth }}
+      >
+        {/* Sidebar Content */}
+        <div className="h-full bg-background/50 backdrop-blur-sm">
+          {!isCollapsed && (
+            <>
+              {/* Sidebar Header */}
+              <div className="p-4 border-b border-border/50">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-sm font-medium text-muted-foreground">
+                    {position === "left" ? "Explorer" : "Outline"}
+                  </h3>
+                  <button
+                    onClick={() => setIsCollapsed(true)}
+                    className="p-1 hover:bg-accent rounded text-muted-foreground hover:text-foreground transition-colors"
+                    title={`Collapse ${position} sidebar`}
+                  >
+                    {position === "left" ? (
+                      <ChevronLeft size={14} />
+                    ) : (
+                      <ChevronRight size={14} />
+                    )}
+                  </button>
+                </div>
+              </div>
+
+              {/* Sidebar Body */}
+              <div className="p-4 text-sm text-muted-foreground">
+                {children || (
+                  <div className="space-y-2">
+                    <p>Sidebar content will go here.</p>
+                    <p className="text-xs opacity-60">
+                      This is a blank {position} sidebar inspired by Obsidian/VSCode.
+                    </p>
+                  </div>
+                )}
+              </div>
+            </>
+          )}
+        </div>
+
+        {/* Resize Handle */}
+        {!isCollapsed && (
+          <div
+            className={cn(
+              "absolute top-0 w-1 h-full cursor-col-resize hover:bg-accent/50 transition-colors",
+              position === "left" ? "right-0" : "left-0"
+            )}
+            onMouseDown={handleMouseDown}
+          />
+        )}
+      </div>
+    </>
   );
 };
 
