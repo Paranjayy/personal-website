@@ -1,9 +1,6 @@
-"use client";
-
 import { posts } from "#site/content";
 import { slug } from "github-slugger";
-import React, { useMemo } from "react";
-import { useTranslation } from "react-i18next";
+import React from "react";
 import { CustomLink } from "~/components/mdx";
 import { PostList } from "~/components/post";
 import { getPostsByTagSlug } from "~/lib/utils";
@@ -14,20 +11,30 @@ interface TagDetailPageProps {
   };
 }
 
+// Generate static params for tags
+export async function generateStaticParams(): Promise<{ tag: string }[]> {
+  // For static export with no blog posts, return empty array
+  if (process.env.GITHUB_PAGES === "true" || posts.length === 0) {
+    return [];
+  }
+
+  // Get all unique tags from posts
+  const tags = new Set<string>();
+  posts.forEach((post) => {
+    post.tags?.forEach((tag) => {
+      tags.add(slug(tag));
+    });
+  });
+
+  return Array.from(tags).map((tag) => ({ tag }));
+}
+
 const TagDetailPage: React.FC<TagDetailPageProps> = ({ params }) => {
   const { tag } = params;
-  const { i18n } = useTranslation();
   const title = tag.split("-").join(" ");
 
-  // Filter posts by current language first, then by tag
-  const displayPosts = useMemo(() => {
-    const languageFilteredPosts = posts.filter((post) => {
-      const postLanguage = post.slug.split("/")[1];
-      return postLanguage === i18n.language;
-    });
-
-    return getPostsByTagSlug(languageFilteredPosts, tag);
-  }, [posts, i18n.language, tag]);
+  // Since we don't have blog posts, just show empty state
+  const displayPosts = getPostsByTagSlug(posts, tag);
 
   return (
     <div className="!mt-8">

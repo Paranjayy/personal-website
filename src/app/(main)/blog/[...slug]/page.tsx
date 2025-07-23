@@ -23,6 +23,11 @@ async function getPostFromParams(params: BlogPostParams["params"]) {
 }
 
 export async function generateStaticParams(): Promise<BlogPostParams["params"][]> {
+  // For static export with no blog posts, return empty array
+  if (process.env.GITHUB_PAGES === "true" || posts.length === 0) {
+    return [];
+  }
+  
   return posts.map((post) => ({ slug: post.slugAsParams.split("/") }));
 }
 

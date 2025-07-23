@@ -13,20 +13,12 @@ if (!process.env.VELITE_STARTED && (isDev || isBuild)) {
   await build({ watch: isDev, clean: !isDev });
 }
 
-// Check if we're building for GitHub Pages
-const isGithubPages = process.env.GITHUB_PAGES === "true";
-
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Enable static export for GitHub Pages
-  output: 'export',
-  
-  // Set base path for GitHub Pages (repository name)
-  basePath: isGithubPages ? '/personal-website' : '',
-  
-  // Disable image optimization for static export
+  experimental: {
+    optimizePackageImports: ["lucide-react"],
+  },
   images: {
-    unoptimized: true,
     remotePatterns: [
       {
         protocol: "https",
@@ -34,13 +26,6 @@ const nextConfig = {
       },
     ],
   },
-  
-  experimental: {
-    optimizePackageImports: ["lucide-react"],
-  },
-  
-  // Disable server-side features for static export
-  trailingSlash: true,
 };
 
 export default nextConfig;
