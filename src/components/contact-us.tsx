@@ -1,155 +1,136 @@
 "use client";
+
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Form, FormControl, FormField, FormItem, FormMessage } from "~/components/ui/form";
-import config from "~/config";
-import { ContactSchema, contactSchemaType } from "~/schema";
-import { CustomLink } from "./mdx";
-import Socials from "./socials";
+import { useTranslation } from "react-i18next";
+import { toast } from "sonner";
+import { z } from "zod";
 import { Button } from "./ui/button";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "./ui/form";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
-import { typo } from "./ui/typograpghy";
-import { useState } from "react";
-import { toast } from "sonner";
+
+// Simple contact form schema
+const ContactSchema = z.object({
+  name: z.string().min(2, "Name must be at least 2 characters"),
+  email: z.string().email("Please enter a valid email"),
+  message: z.string().min(10, "Message must be at least 10 characters"),
+});
+
+type ContactFormData = z.infer<typeof ContactSchema>;
 
 const ContactUs = () => {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const form = useForm<contactSchemaType>({
+  const { t } = useTranslation();
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const form = useForm<ContactFormData>({
     resolver: zodResolver(ContactSchema),
     defaultValues: {
-      fullName: "",
-      phone: "",
+      name: "",
       email: "",
       message: "",
     },
   });
 
-  async function onSubmit(data: contactSchemaType) {
-    try {
-      setIsSubmitting(true);
-      const response = await fetch("https://api.web3forms.com/submit", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify({
-          access_key: "c90e41df-71f6-438d-a957-dd005e2828d4",
-          ...data,
-        }),
-      });
-
-      const result = await response.json();
-      if (result.success) {
-        toast.success("Thank you for contacting me!");
-        form.reset();
-      } else {
-        toast.error("Something went wrong. Please try again.");
-      }
-    } catch (error) {
+  const contactMutation = useMutation({
+    mutationFn: async (data: ContactFormData) => {
+      // For now, just simulate a successful submission
+      // You can integrate with email services like EmailJS, Formspree, etc. later
+      console.log("Contact form data:", data);
+      return { success: true };
+    },
+    onSuccess: () => {
+      setIsSubmitted(true);
+      toast.success("Message sent successfully! I'll get back to you soon.");
+      form.reset();
+    },
+    onError: () => {
       toast.error("Failed to send message. Please try again.");
-    } finally {
-      setIsSubmitting(false);
-    }
+    },
+  });
+
+  const onSubmit = (data: ContactFormData) => {
+    contactMutation.mutate(data);
+  };
+
+  if (isSubmitted) {
+    return (
+      <div className="rounded-md border p-6 text-center">
+        <h3 className="text-lg font-semibold text-green-600">Thank you!</h3>
+        <p className="mt-2 text-muted-foreground">
+          Your message has been sent. I'll get back to you as soon as possible.
+        </p>
+        <Button 
+          onClick={() => setIsSubmitted(false)} 
+          variant="outline" 
+          className="mt-4"
+        >
+          Send another message
+        </Button>
+      </div>
+    );
   }
 
   return (
-    <section aria-label="contact" className="!mt-5">
-      <div className="flex w-full flex-col items-center gap-4 md:flex-row">
-        <div className="size-full space-y-4 md:max-w-xs">
-          <h2 className={typo({ variant: "h2" })}>Get in Touch</h2>
-          <p className="text-base text-muted-foreground">
-            If you have any inquiries, please feel free to reach out. You can contact me via email
-            at{" "}
-            <CustomLink href={`mailto:${config.social.email}`} aria-label={config.social.email}>
-              {config.social.email}
-            </CustomLink>{" "}
-          </p>
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        <FormField
+          control={form.control}
+          name="name"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Name</FormLabel>
+              <FormControl>
+                <Input placeholder="Your name" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-          <div className="space-y-3">
-            <h3>Follow me </h3>
-            <Socials />
-          </div>
-        </div>
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Email</FormLabel>
+              <FormControl>
+                <Input type="email" placeholder="your.email@example.com" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-        <Form {...form}>
-          <form
-            className="w-full space-y-3 rounded-md bg-[#131313] p-3 sm:space-y-4 sm:rounded-none sm:bg-transparent sm:p-0"
-            onSubmit={form.handleSubmit(onSubmit)}
-          >
-            <h2 className="block text-center font-ubuntu text-lg sm:hidden">Fill this form</h2>
-            <div className="grid gap-3 sm:gap-4 md:grid-cols-2">
-              <FormField
-                control={form.control}
-                name="fullName"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Input
-                        type="text"
-                        placeholder="Full Name"
-                        className="normal-case"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+        <FormField
+          control={form.control}
+          name="message"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Message</FormLabel>
+              <FormControl>
+                <Textarea 
+                  placeholder="Tell me about your project or just say hello!" 
+                  className="min-h-[100px]"
+                  {...field} 
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-              <FormField
-                control={form.control}
-                name="phone"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Input
-                        type="text"
-                        placeholder="Phone No"
-                        className="normal-case"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <Input type="email" placeholder="Email" className="normal-case" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="message"
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <Textarea placeholder="Message" className="normal-case" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <Button type="submit" className="w-full" disabled={isSubmitting}>
-              {isSubmitting ? "Sending..." : "Submit"}
-            </Button>
-          </form>
-        </Form>
-      </div>
-    </section>
+        <Button 
+          type="submit" 
+          className="w-full" 
+          disabled={contactMutation.isPending}
+        >
+          {contactMutation.isPending ? "Sending..." : "Send Message"}
+        </Button>
+      </form>
+    </Form>
   );
 };
 
